@@ -8817,4 +8817,6 @@ extern "C" {
     enum_connected_adapters: i32,
     context: *mut *mut std::ffi::c_void, // ADL_CONTEXT_HANDLE の正体
   ) -> i32;
+
+  pub fn ADL2_Main_Control_Destroy(context: *mut std::ffi::c_void) -> i32;
 }
