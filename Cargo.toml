@@ -11,7 +11,4 @@ keywords = ["AMD", "adl", "radeon"]
 [dependencies]
 
 [workspace]
-members = [
-  "sys",
-  "adl",
-]
+members = ["sys", "adl"]
