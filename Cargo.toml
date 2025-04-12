@@ -2,7 +2,7 @@
 name = "adl-rs"
 version = "0.1.0"
 authors = ["shm11C3"]
-edition = "2024"
+edition = "2021"
 license = "MIT"
 repository = "https://github.com/shm11C3/adl-rs"
 description = "ADL (AMD Display Library) API bindings"

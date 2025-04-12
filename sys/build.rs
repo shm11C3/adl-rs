@@ -18,6 +18,7 @@ fn main() {
     .clang_arg("-fdeclspec")
     .clang_arg("-include")
     .clang_arg("include/wchar_shim.h")
+    .clang_arg("-DADL_ENABLE_THREAD_SAFE")
     .parse_callbacks(Box::new(bindgen::CargoCallbacks::default()));
 
   match builder.generate() {
