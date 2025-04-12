@@ -1,0 +1,28 @@
+name: CI (Windows)
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install LLVM (with libclang)
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "17.0"
+
+      - name: Set LIBCLANG_PATH
+        run: |
+          echo "LIBCLANG_PATH=C:\Program Files\LLVM\bin\bin" >> $env:GITHUB_ENV
+
+      - name: Build project
+        run: cargo build --workspace --verbose
