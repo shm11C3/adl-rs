@@ -46,3 +46,33 @@ pub fn convert_adapter_info(raw: &AdapterInfoX2) -> AdapterInfo {
     vendor_id: raw.iVendorID,
   }
 }
+
+fn describe_bus_type(bus_type: i32) -> &'static str {
+  match bus_type {
+    1 => "PCIe",
+    2 => "AGP",
+    3 => "PCI",
+    _ => "Unknown",
+  }
+}
+
+#[derive(Debug, Clone)]
+pub struct ADLChipSetInfo {
+  pub bus_type: String,
+  pub bus_speed_type: i32,
+  pub max_pcie_lane_width: i32,
+  pub current_pcie_lane_width: i32,
+  pub supported_agp_speeds: i32,
+  pub current_agp_speed: i32,
+}
+
+pub fn convert_chipset_info(raw: &adl_sys::ADLChipSetInfo) -> ADLChipSetInfo {
+  ADLChipSetInfo {
+    bus_type: describe_bus_type(raw.iBusType).to_string(),
+    bus_speed_type: raw.iBusSpeedType,
+    max_pcie_lane_width: raw.iMaxPCIELaneWidth,
+    current_pcie_lane_width: raw.iCurrentPCIELaneWidth,
+    supported_agp_speeds: raw.iSupportedAGPSpeeds,
+    current_agp_speed: raw.iCurrentAGPSpeed,
+  }
+}
