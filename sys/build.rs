@@ -1,4 +1,5 @@
 use std::env;
+use std::fs;
 use std::path::PathBuf;
 
 fn main() {
@@ -19,6 +20,7 @@ fn main() {
     .clang_arg("-include")
     .clang_arg("include/wchar_shim.h")
     .clang_arg("-DADL_ENABLE_THREAD_SAFE")
+    .clang_arg("-DADL_EXPOSED")
     .parse_callbacks(Box::new(bindgen::CargoCallbacks::default()));
 
   match builder.generate() {
@@ -34,6 +36,11 @@ fn main() {
       bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
+
+      // Copy the generated bindings to src/bindings.rs for development
+      let dev_bindings_path = PathBuf::from("src").join("bindings.rs");
+      fs::copy(&out_path.join("bindings.rs"), &dev_bindings_path)
+        .expect("Failed to copy bindings to src/bindings.rs");
     }
     Err(e) => {
       eprintln!("Unable to generate bindings: {e:?}");

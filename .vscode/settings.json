@@ -3,5 +3,6 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
     "editor.formatOnSave": true,
     "editor.inlayHints.enabled": "off"
-  }
+  },
+  "cSpell.words": ["atiadlxx", "libatiadlxx", "libloading", "unsync"]
 }

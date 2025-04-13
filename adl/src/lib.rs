@@ -1,30 +1,27 @@
-use std::ffi::c_void;
-use std::ptr::null_mut;
+#![allow(non_camel_case_types)]
+#![allow(non_snake_case)]
+#![allow(non_upper_case_globals)]
 
-pub struct AdlContext {
-  pub(crate) handle: *mut c_void,
-}
+type ADL_Adapter_NumberOfAdapters_Get =
+  unsafe extern "C" fn(lpNumAdapters: *mut i32) -> i32;
 
-impl AdlContext {
-  pub fn new() -> Result<Self, i32> {
-    let mut handle: *mut c_void = null_mut();
+pub fn get_adapter_count() -> Result<i32, libloading::Error> {
+  unsafe {
+    let get_count: libloading::Symbol<'static, ADL_Adapter_NumberOfAdapters_Get> =
+      sys::get_adl_fn(b"ADL_Adapter_NumberOfAdapters_Get\0")?;
 
-    let result = unsafe { sys::ADL2_Main_Control_Create(None, 1, &mut handle) };
+    let mut count = 0;
+    let result = get_count(&mut count);
 
     if result == 0 {
-      Ok(Self { handle })
+      Ok(count)
     } else {
-      Err(result)
+      Err(libloading::Error::DlSym {
+        desc: std::ffi::CString::new(format!("ADL call failed with code {}", result))
+          .unwrap()
+          .as_c_str()
+          .into(),
+      })
     }
-  }
-
-  pub fn handle(&self) -> *mut c_void {
-    self.handle
-  }
-}
-
-impl Drop for AdlContext {
-  fn drop(&mut self) {
-    let _ = unsafe { sys::ADL2_Main_Control_Destroy(self.handle) };
   }
 }
