@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-sys = { path = "../sys" }
+adl-sys = { path = "../adl-sys" }
 libloading = "0.8.6"

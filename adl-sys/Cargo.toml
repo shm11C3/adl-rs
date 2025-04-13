@@ -1,5 +1,5 @@
 [package]
-name = "sys"
+name = "adl-sys"
 version = "0.1.0"
 authors = ["shm11C3"]
 edition = "2021"

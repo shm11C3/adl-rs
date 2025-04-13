@@ -209,7 +209,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "sys"
+name = "adl-sys"
 version = "0.1.0"
 dependencies = [
  "bindgen",

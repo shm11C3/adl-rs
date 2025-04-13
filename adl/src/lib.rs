@@ -8,7 +8,7 @@ type ADL_Adapter_NumberOfAdapters_Get =
 pub fn get_adapter_count() -> Result<i32, libloading::Error> {
   unsafe {
     let get_count: libloading::Symbol<'static, ADL_Adapter_NumberOfAdapters_Get> =
-      sys::get_adl_fn(b"ADL_Adapter_NumberOfAdapters_Get\0")?;
+      adl_sys::get_adl_fn(b"ADL_Adapter_NumberOfAdapters_Get\0")?;
 
     let mut count = 0;
     let result = get_count(&mut count);

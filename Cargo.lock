@@ -6,13 +6,22 @@ version = 4
 name = "adl"
 version = "0.1.0"
 dependencies = [
+ "adl-sys",
  "libloading",
- "sys",
 ]
 
 [[package]]
 name = "adl-rs"
 version = "0.1.0"
+
+[[package]]
+name = "adl-sys"
+version = "0.1.0"
+dependencies = [
+ "bindgen",
+ "libloading",
+ "once_cell",
+]
 
 [[package]]
 name = "adl_example"
@@ -231,15 +240,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "sys"
-version = "0.1.0"
-dependencies = [
- "bindgen",
- "libloading",
- "once_cell",
 ]
 
 [[package]]
