@@ -18,11 +18,12 @@ jobs:
       - name: Install LLVM (with libclang)
         uses: KyleMayes/install-llvm-action@v1
         with:
-          version: "17.0"
+          version: "20.0"
 
       - name: Set LIBCLANG_PATH
         run: |
-          echo "LIBCLANG_PATH=C:\Program Files\LLVM\bin\bin" >> $env:GITHUB_ENV
+          echo "LIBCLANG_PATH=C:\Program Files\LLVM\bin" >> $env:GITHUB_ENV
+          echo "BINDGEN_EXTRA_CLANG_ARGS=-IC:\Program Files\LLVM\lib\clang\20\include" >> $env:GITHUB_ENV
 
       - name: Build project
         run: cargo build --workspace --verbose
