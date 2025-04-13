@@ -9,7 +9,13 @@ fn main() {
       for adapter in adapters {
         println!(
           "Adapter {}: {} ({}), Present: {}, Bus Number: {}, Vendor ID: {}",
-          adapter.index,
+          match adl::adapter::get_adapter_id(adapter.index) {
+            Ok(id) => id,
+            Err(e) => {
+              eprintln!("Failed to get adapter ID: {}", e);
+              continue;
+            }
+          },
           adapter.name,
           adapter.display_name,
           adapter.present,

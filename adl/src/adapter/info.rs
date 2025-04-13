@@ -86,3 +86,28 @@ pub fn get_all_adapter_info() -> Result<Vec<types::AdapterInfo>, String> {
     Ok(adapters)
   }
 }
+
+/// Get the ADL adapter ID for a given adapter index.
+///
+/// # Arguments
+/// * `index` - The adapter index (0-based)
+///
+/// # Returns
+/// * `Ok(i32)` - The adapter ID
+/// * `Err(String)` - If the call fails
+pub fn get_adapter_id(index: i32) -> Result<i32, String> {
+  unsafe {
+    let func = adl_sys::get_adl_fn::<unsafe extern "stdcall" fn(i32, *mut i32) -> i32>(
+      b"ADL_Adapter_ID_Get\0",
+    )
+    .map_err(|e| format!("Failed to load ADL_Adapter_ID_Get: {}", e))?;
+
+    let mut id: i32 = 0;
+    let result = func(index, &mut id);
+    if result == 0 {
+      Ok(id)
+    } else {
+      Err(format!("ADL_Adapter_ID_Get failed with code {}", result))
+    }
+  }
+}
