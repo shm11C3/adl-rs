@@ -69,6 +69,8 @@ pub fn get_all_adapter_info() -> Result<Vec<types::AdapterInfo>, String> {
       ));
     }
 
+    // NOTE: ADL2_Adapter_AdapterInfoX4_Get may return 0 even when it provides valid data.
+    // See: https://gpuopen-librariesandsdks.github.io/adl/group__ADAPTERAPI.html
     if result != 1 {
       eprintln!(
         "Warning: ADL2_Adapter_AdapterInfoX4_Get returned {}, but data seems usable.",
