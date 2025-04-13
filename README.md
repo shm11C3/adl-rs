@@ -1,5 +1,7 @@
 # adl-rs
 
+[![CI (Windows)](https://github.com/shm11C3/adl-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/shm11C3/adl-rs/actions/workflows/ci.yml)
+
 This repository provides Rust bindings for the AMD Display Library (ADL).  
 The project is currently under active development and aims to provide complete coverage of the ADL SDK.
 
