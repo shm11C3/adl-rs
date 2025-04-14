@@ -51,6 +51,15 @@ fn main() {
           "  - size_bytes: {} B  bit_rate_x2_mbps {} mbps, Memory Type: {}",
           memory.size_bytes, memory.bit_rate_x2_mbps, memory.memory_type
         );
+
+        let vram_usage = match adl::adapter::get_vram_usage(adapter.index) {
+          Ok(usage) => usage,
+          Err(e) => {
+            eprintln!("Failed to get VRAM usage: {}", e);
+            continue;
+          }
+        };
+        println!("  - VRAM Usage: {} MB", vram_usage);
       }
     }
     Err(e) => eprintln!("Failed to get adapter info: {}", e),
