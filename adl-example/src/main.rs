@@ -60,6 +60,20 @@ fn main() {
           }
         };
         println!("  - VRAM Usage: {} MB", vram_usage);
+
+        let vbios_info = match adl::adapter::get_vbios_info(adapter.index) {
+          Ok(info) => info,
+          Err(e) => {
+            eprintln!("Failed to get VBIOS info: {}", e);
+            continue;
+          }
+        };
+        println!(
+          "  - VBIOS Version: {}",
+          unsafe { std::ffi::CStr::from_ptr(vbios_info.version.as_ptr() as *const i8) }
+            .to_string_lossy()
+            .into_owned()
+        );
       }
     }
     Err(e) => eprintln!("Failed to get adapter info: {}", e),

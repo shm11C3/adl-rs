@@ -107,3 +107,25 @@ pub fn convert_memory_info_x4(raw: &adl_sys::ADLMemoryInfoX4) -> ADLMemoryInfo {
     bit_rate_x2_mbps: raw.iMemoryBitRateX2,
   }
 }
+
+#[derive(Debug, Clone)]
+pub struct ADLBiosInfo {
+  pub part_number: String,
+  pub version: String,
+  pub date: String,
+}
+
+pub fn convert_vbios_info(raw: &adl_sys::ADLBiosInfo) -> ADLBiosInfo {
+  use std::ffi::CStr;
+  ADLBiosInfo {
+    part_number: unsafe { CStr::from_ptr(raw.strPartNumber.as_ptr()) }
+      .to_string_lossy()
+      .into_owned(),
+    version: unsafe { CStr::from_ptr(raw.strVersion.as_ptr()) }
+      .to_string_lossy()
+      .into_owned(),
+    date: unsafe { CStr::from_ptr(raw.strDate.as_ptr()) }
+      .to_string_lossy()
+      .into_owned(),
+  }
+}

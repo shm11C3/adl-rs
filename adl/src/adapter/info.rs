@@ -111,3 +111,42 @@ pub fn get_adapter_id(index: i32) -> Result<i32, String> {
     }
   }
 }
+
+///
+/// Get chipset information for a specific adapter.
+///
+/// # Arguments
+///
+/// * `index` - The index of the adapter.
+///
+/// # Returns
+///
+/// * `Ok(ChipSetInfo)` - The chipset information.
+/// * `Err(String)` - An error message if the function fails.
+///
+pub fn get_vbios_info(index: i32) -> Result<types::ADLBiosInfo, String> {
+  let context = ADLContext::new()?;
+
+  unsafe {
+    let func = adl_sys::get_adl_fn::<
+      unsafe extern "stdcall" fn(
+        *mut std::ffi::c_void,
+        i32,
+        *mut adl_sys::ADLBiosInfo,
+      ) -> i32,
+    >(b"ADL2_Adapter_VideoBiosInfo_Get\0")
+    .map_err(|e| format!("Failed to load ADL2_Adapter_VideoBiosInfo_Get: {}", e))?;
+
+    let mut raw: adl_sys::ADLBiosInfo = std::mem::zeroed();
+
+    let result = func(context.handle(), index, &mut raw);
+    if result != 0 {
+      return Err(format!(
+        "ADL2_Adapter_VideoBiosInfo_Get failed with code {}",
+        result
+      ));
+    }
+
+    Ok(types::convert_vbios_info(&raw))
+  }
+}
