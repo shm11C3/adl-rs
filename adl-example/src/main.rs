@@ -38,6 +38,19 @@ fn main() {
           chipset.max_pcie_lane_width,
           chipset.bus_type
         );
+
+        let memory = match adl::adapter::get_memory_info(adapter.index) {
+          Ok(memory) => memory,
+          Err(e) => {
+            eprintln!("Failed to get memory info: {}", e);
+            continue;
+          }
+        };
+
+        println!(
+          "  - size_bytes: {} B  bit_rate_x2_mbps {} mbps, Memory Type: {}",
+          memory.size_bytes, memory.bit_rate_x2_mbps, memory.memory_type
+        );
       }
     }
     Err(e) => eprintln!("Failed to get adapter info: {}", e),

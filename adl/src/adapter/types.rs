@@ -76,3 +76,34 @@ pub fn convert_chipset_info(raw: &adl_sys::ADLChipSetInfo) -> ADLChipSetInfo {
     current_agp_speed: raw.iCurrentAGPSpeed,
   }
 }
+
+#[derive(Debug, Clone)]
+pub struct ADLMemoryInfo {
+  pub size_bytes: i64,
+  pub memory_type: String,
+  pub bandwidth_mb_s: i64,
+  pub hyper_memory_bytes: i64,
+  pub invisible_memory_bytes: i64,
+  pub visible_memory_bytes: i64,
+  pub vram_vendor_rev_id: i64,
+  pub bandwidth_x2_mb_s: i64,
+  pub bit_rate_x2_mbps: i64,
+}
+
+pub fn convert_memory_info_x4(raw: &adl_sys::ADLMemoryInfoX4) -> ADLMemoryInfo {
+  ADLMemoryInfo {
+    size_bytes: raw.iMemorySize,
+    memory_type: unsafe {
+      std::ffi::CStr::from_ptr(raw.strMemoryType.as_ptr())
+        .to_string_lossy()
+        .into_owned()
+    },
+    bandwidth_mb_s: raw.iMemoryBandwidth,
+    hyper_memory_bytes: raw.iHyperMemorySize,
+    invisible_memory_bytes: raw.iInvisibleMemorySize,
+    visible_memory_bytes: raw.iVisibleMemorySize,
+    vram_vendor_rev_id: raw.iVramVendorRevId,
+    bandwidth_x2_mb_s: raw.iMemoryBandwidthX2,
+    bit_rate_x2_mbps: raw.iMemoryBitRateX2,
+  }
+}
