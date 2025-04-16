@@ -78,4 +78,13 @@ fn main() {
     }
     Err(e) => eprintln!("Failed to get adapter info: {}", e),
   }
+
+  match adl::performance::get_pm_log_data(0) {
+    Ok(log_data) => {
+      for (name, value) in log_data {
+        println!("PM Log Data - {}: {}", name, value);
+      }
+    }
+    Err(e) => eprintln!("Failed to get PM log data: {}", e),
+  }
 }

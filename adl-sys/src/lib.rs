@@ -11,6 +11,8 @@ const LIBRARY_NAME: &str = "atiadlxx";
 #[cfg(unix)]
 const LIBRARY_NAME: &str = "libatiadlxx.so";
 
+pub const ADL_PM_LOG_MAX: usize = 256;
+
 mod bindings;
 pub use bindings::*;
 
