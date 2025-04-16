@@ -36,3 +36,25 @@ pub fn get_pm_log_data(index: i32) -> Result<Vec<(u32, u32)>, String> {
     Ok(values)
   }
 }
+
+pub fn get_gpu_activity(index: i32) -> Result<adl_sys::ADLPMActivity, String> {
+  unsafe {
+    let func = adl_sys::get_adl_fn::<
+      unsafe extern "stdcall" fn(i32, *mut adl_sys::ADLPMActivity) -> i32,
+    >(b"ADL_PM_CurrentActivity_Get\0")
+    .map_err(|e| format!("Failed to load ADL_PM_CurrentActivity_Get: {}", e))?;
+
+    let mut activity: adl_sys::ADLPMActivity = zeroed();
+    activity.iSize = size_of::<adl_sys::ADLPMActivity>() as i32;
+
+    let result = func(index, &mut activity);
+    if result != 0 {
+      return Err(format!(
+        "ADL_PM_CurrentActivity_Get failed with code {}",
+        result
+      ));
+    }
+
+    Ok(activity)
+  }
+}

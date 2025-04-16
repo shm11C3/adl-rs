@@ -5,4 +5,5 @@
 mod context;
 
 pub mod adapter;
+pub mod overdrive;
 pub mod performance;

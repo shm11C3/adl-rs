@@ -74,17 +74,27 @@ fn main() {
             .to_string_lossy()
             .into_owned()
         );
+
+        match adl::performance::get_pm_log_data(adapter.index) {
+          Ok(log_data) => {
+            for (name, value) in log_data {
+              println!("PM Log Data - {}: {}", name, value);
+            }
+          }
+          Err(e) => eprintln!("Failed to get PM log data: {}", e),
+        }
+
+        match adl::overdrive::get_gpu_activity_percent(adapter.index) {
+          Ok(activity) => println!("GPU Activity: {:?}", activity),
+          Err(e) => eprintln!("Failed to get GPU activity: {}", e),
+        }
+
+        match adl::performance::get_gpu_activity(adapter.index) {
+          Ok(activity) => println!("GPU Activity: {:?}", activity),
+          Err(e) => eprintln!("Failed to get GPU activity: {}", e),
+        }
       }
     }
     Err(e) => eprintln!("Failed to get adapter info: {}", e),
-  }
-
-  match adl::performance::get_pm_log_data(0) {
-    Ok(log_data) => {
-      for (name, value) in log_data {
-        println!("PM Log Data - {}: {}", name, value);
-      }
-    }
-    Err(e) => eprintln!("Failed to get PM log data: {}", e),
   }
 }
