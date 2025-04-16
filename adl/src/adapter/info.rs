@@ -1,4 +1,5 @@
-use crate::adapter::{context::ADLContext, types};
+use crate::adapter::types;
+use crate::context::ADLContext;
 use adl_sys;
 use libc;
 use std::ffi::c_void;

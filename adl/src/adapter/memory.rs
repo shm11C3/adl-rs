@@ -1,5 +1,5 @@
-use crate::adapter::context::ADLContext;
 use crate::adapter::types::{convert_memory_info_x4, ADLMemoryInfo};
+use crate::context::ADLContext;
 
 ///
 /// Get memory information for a specific adapter.

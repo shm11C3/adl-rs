@@ -1,5 +1,4 @@
 pub mod chip;
-pub mod context;
 pub mod info;
 pub mod memory;
 pub mod types;
